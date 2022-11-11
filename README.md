@@ -1,4 +1,4 @@
-# qrcodeapp
+# Zinny Qrcodeapp
 
 ## Project setup
 
@@ -42,4 +42,4 @@ Using the **global store**, i was able to establish a constant listener to the d
 and then, when some data is appended, it reflects in the store... causing both components to be in `sync`.
 With this i was able to implement certain features like blocking the user when `limit has been reached`.
 
-> Made by `@Zinnybliss`
+> Made by `@Zinnybliss ⚡`
