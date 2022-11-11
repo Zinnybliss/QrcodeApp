@@ -7,14 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // plugin: [createPersistedState({})],
-    qrs: [
-      {
-        createdAt: "Fri Nov 11 2022",
-        generatedUrl:
-          "https://www.qrtag.net/api/qr_4.png?url=https://google.com",
-        url: "https://google.com",
-      },
-    ],
+    qrs: [],
   },
   getters: {},
   mutations: {
