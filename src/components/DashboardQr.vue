@@ -12,14 +12,16 @@
     </nav>
     <div class="container app__flex glass">
       <h1 class="head-text">Qr<span>Code</span> Generator</h1>
-      <p class="p-text">Generate a randome Qr code for your ease.</p>
+      <p class="p-text">Generate a random Qr code for your ease.</p>
       <form class="app__flex" @submit="handleSubmit">
         <input
           type="text"
           placeholder="https://www.google.com"
           v-model="link"
         />
-        <button type="submit">Submit</button>
+        <button type="submit" v-bind:disabled="qrs.length == 10 ? true : false">
+          Submit
+        </button>
       </form>
       <div class="w-[380px]" v-if="errorText">
         <p class="text-red-400 text-[14px]">{{ errorText }}</p>
@@ -31,6 +33,7 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
   data() {
     return {
@@ -39,19 +42,29 @@ export default {
       errorText: "",
     };
   },
+  computed: {
+    qrs() {
+      return this.$store.state.qrs;
+    },
+  },
   methods: {
-    handleSubmit(e) {
+    async handleSubmit(e) {
       e.preventDefault(this.link);
 
       if (this.validate()) {
         const url = this.generateUrl(this.link);
-        console.log(url);
 
-        this.showMessage();
+        const d = await this.$store.dispatch("addQr", url);
+
+        if (10 - this.qrs.length < 1) {
+          this.showMessage(10 - this.qrs.length);
+        }
+
+        router.push("/history");
       }
     },
-    showMessage() {
-      this.message = "only 9 url's available!";
+    showMessage(num) {
+      this.message = `only ${num} url's available!`;
       setTimeout(() => {
         this.message = "";
       }, 3000);
@@ -134,6 +147,7 @@ img {
 .container {
   width: 70%;
   min-height: 80vh;
+  padding: 0 10px;
 
   /* background-color: #90d7ff; */
   flex-direction: column;
@@ -180,7 +194,7 @@ p {
 }
 
 form {
-  width: 40%;
+  width: 60%;
   /* border: solid; */
   align-items: flex-start;
   /* flex-direction: column; */
@@ -213,7 +227,54 @@ form button {
   transition: 0.5s;
 }
 
-form button:hover {
+form button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+form button:hover s {
   opacity: 0.8;
+}
+
+@media screen and (min-width: 290px) and (max-width: 830px) {
+  .container {
+    width: 90%;
+    text-align: center;
+  }
+
+  .head-text {
+    font-size: 30px;
+  }
+  form {
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form input {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 830px) {
+  .container {
+    width: 90%;
+    text-align: center;
+  }
+
+  .head-text {
+    font-size: 40px;
+  }
+  form {
+    width: 80%;
+    flex-direction: row;
+    /* justify-content: center;
+    align-items: center; */
+  }
+
+  form input {
+    width: 100%;
+  }
 }
 </style>

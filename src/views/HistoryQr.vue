@@ -14,15 +14,15 @@
     <!-- <div class="section app__flex"> -->
     <div class="container app__flex glass">
       <h1 class="head-text">History</h1>
-      <div class="qrs flex flex-col">
-        <qr-card v-for="qr in alldatas" :key="qr.createdAt" :qr="qr" />
+      <div class="qrs flex flex-col gap-[8px] sm:gap-[20px]">
+        <qr-card v-for="qr in qrs" :key="qr.createdAt" :qr="qr" />
       </div>
       <div
-        class="h-[300px] flex flex-col justify-center align-items"
-        v-if="alldatas.length < 1"
+        class="h-[400px] flex flex-col justify-center align-items"
+        v-if="qrs.length < 1"
       >
         <img src="../assets/not-found.svg" class="w-[150px]" />
-        <p>No recent qr's! </p>
+        <p>No recent qr's!</p>
       </div>
     </div>
     <!-- </div> -->
@@ -36,21 +36,13 @@ export default {
   data() {
     return {
       message: "",
-      alldatas: [
-        // {
-        //   url: "https://www.google.com",
-        //   generatedUrl:
-        //     "https://www.qrtag.net/api/qr_4.png?url=https://www.google.com",
-        //   createdAt: new Date().toDateString(),
-        // },
-        // {
-        //   url: "https://www.ezinama.com",
-        //   generatedUrl:
-        //     "https://www.qrtag.net/api/qr_4.png?url=https://www.google.com",
-        //   createdAt: new Date().toDateString(),
-        // },
-      ],
+      // qrs: [],
     };
+  },
+  computed: {
+    qrs() {
+      return this.$store.state.qrs;
+    },
   },
   methods: {
     getData() {},
@@ -90,12 +82,10 @@ nav .nav-links .nav-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-
   height: 40px;
   border-radius: 16px;
   padding: 0 30px;
   cursor: pointer;
-
   color: #90d7ff;
   text-decoration: none;
 }
@@ -111,35 +101,25 @@ nav .brand img {
   width: 70%;
   height: 80vh;
   max-height: 80vh;
-
-  /* background-color: #90d7ff; */
-
   flex-direction: column;
-
   backdrop-filter: blur(10);
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 .container .qrs {
   overflow: auto;
-
-  gap: 20px;
   padding: 1px 18px;
 }
 
 .glass {
   background: white;
-  /* min-height: 80vh; */
-  /* width: 60%; */
   background: linear-gradient(
     to right bottom,
     rgba(255, 255, 255, 0.7),
     rgba(255, 255, 255, 0.3)
   );
   border-radius: 2rem;
-  /* z-index: 2; */
   backdrop-filter: blur(2rem);
-  /* display: flex; */
 }
 
 h1 {
@@ -164,10 +144,15 @@ p {
   color: #082d42;
 }
 
-/* .section {
-  width: 90%;
-  flex-direction: column;
-  align-items: flex-start;
-  
-} */
+@media screen and (min-width: 290px) and (max-width: 830px) {
+  .main {
+    gap: 30px;
+  }
+  .container {
+    width: 95%;
+  }
+  .head-text {
+    font-size: 30px;
+  }
+}
 </style>
